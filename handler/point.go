@@ -3,8 +3,9 @@ package handler
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
 	"ride/db/table"
+
+	"github.com/gin-gonic/gin"
 )
 
 func Point(ctx *gin.Context) {
