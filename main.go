@@ -6,18 +6,18 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/gin-gonic/gin"
 	"ride/db/cache"
 	"ride/db/table"
 	"ride/handler"
-	"ride/middlerware"
 	"ride/pkg/path"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	r := gin.Default()
 	//r.Use(middlerware.Auth())
-	r.GET("/point", middlerware.Auth(), handler.Point)
+	r.GET("/point", handler.Point)
 	r.GET("/download", func(c *gin.Context) {
 		currentPath, err := path.GetCurrentPath()
 		if err != nil {
