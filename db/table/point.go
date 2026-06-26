@@ -1,4 +1,4 @@
-package collection
+package table
 
 import (
 	"sync"

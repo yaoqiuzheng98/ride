@@ -4,10 +4,10 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"ride/db/collection"
+	"ride/db/table"
 )
 
 func Point(ctx *gin.Context) {
-	points := collection.GetPoints().GetPoints()
+	points := table.GetPoints().GetPoints()
 	ctx.JSON(http.StatusOK, points)
 }
