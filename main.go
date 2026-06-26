@@ -8,7 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"ride/db/cache"
-	"ride/db/collection"
+	"ride/db/table"
 	"ride/handler"
 	"ride/middlerware"
 	"ride/pkg/path"
@@ -48,7 +48,7 @@ func main() {
 			return
 		}
 	})
-	cache.NewMemory([]cache.Cache{collection.GetPoints()}).Refresh()
+	cache.NewMemory([]cache.Cache{table.GetPoints()}).Refresh()
 	err := r.Run(":9999")
 	if err != nil {
 		panic(err)
