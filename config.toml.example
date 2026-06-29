@@ -1,0 +1,6 @@
+[amap]
+# 高德开放平台 Web 服务类型 key（用于 restapi.amap.com，返回 6 位小数高精度坐标）
+# 申请：https://console.amap.com -> 应用管理 -> 创建 Web 服务类型 key
+key = ""
+# 默认搜索城市 adcode（广州=440100，全国=全国）
+default_region = "440100"

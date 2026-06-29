@@ -9,12 +9,16 @@ import (
 	"ride/db/cache"
 	"ride/db/table"
 	"ride/handler"
+	"ride/pkg/config"
 	"ride/pkg/path"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	if _, err := config.Load("config.toml"); err != nil {
+		panic(err)
+	}
 	r := gin.Default()
 	//r.Use(middlerware.Auth())
 	r.GET("/point", handler.Point)
