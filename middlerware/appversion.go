@@ -7,7 +7,7 @@ import (
 )
 
 // 最低要求的 APP 版本号和更新说明
-const minAppVersion = "1.1"
+const minAppVersion = "1.0"
 const updateMessage = "1. 新增标记点语音播报功能\n2. 新增模拟导航\n3. 修复地图定位问题\n请下载最新版本使用"
 
 // AppVersionCheck 校验请求头 X-App-Version，低于最低版本返回 409 + 更新内容
