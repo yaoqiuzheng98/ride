@@ -19,8 +19,9 @@ func main() {
 	r := gin.Default()
 	// 公开接口：创建用户
 	r.POST("/user", handler.CreateUser)
-	// 需要 X-User-Id 认证的接口
+	// 需要 APP 版本校验 + X-User-Id 认证的接口
 	auth := r.Group("")
+	auth.Use(middlerware.AppVersionCheck())
 	auth.Use(middlerware.UserIDAuth())
 	auth.GET("/point", handler.Point)
 	r.GET("/download", func(c *gin.Context) {
