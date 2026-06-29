@@ -16,7 +16,7 @@ type createUserRequest struct {
 }
 
 type userResponse struct {
-	Id    int64  `json:"id"`
+	Id    uint   `json:"id"`
 	Phone string `json:"phone"`
 }
 
@@ -37,5 +37,5 @@ func CreateUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, userResponse{Id: u.Id, Phone: u.Phone})
+	ctx.JSON(http.StatusOK, userResponse{Id: u.ID, Phone: u.Phone})
 }

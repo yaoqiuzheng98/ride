@@ -4,13 +4,14 @@ import (
 	"sync"
 	"time"
 
+	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 
 	"ride/db"
 )
 
 type Point struct {
-	Id        int64   `gorm:"primaryKey;autoIncrement" json:"id"`
+	gorm.Model
 	Latitude  float64 `gorm:"uniqueIndex:uk_lat_lng" json:"latitude"`
 	Longitude float64 `gorm:"uniqueIndex:uk_lat_lng" json:"longitude"`
 	Name      string  `gorm:"size:255;not null;default:''" json:"name"`

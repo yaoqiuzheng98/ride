@@ -10,7 +10,7 @@ import (
 
 // User 用户表，当前只有业务ID和手机号。
 type User struct {
-	Id    int64  `gorm:"primaryKey;autoIncrement;comment:业务ID" json:"id"`
+	gorm.Model
 	Phone string `gorm:"size:20;uniqueIndex;not null;comment:手机号" json:"phone"`
 }
 
@@ -44,6 +44,3 @@ func init() {
 		panic(err)
 	}
 }
-
-// keep gorm import referenced
-var _ = gorm.ErrRecordNotFound
