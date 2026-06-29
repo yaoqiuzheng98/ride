@@ -3,10 +3,8 @@ package handler
 import (
 	"errors"
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 
 	"ride/db/table"
 )
@@ -17,6 +15,7 @@ type createUserRequest struct {
 
 type userResponse struct {
 	Id    uint   `json:"id"`
+	BizID string `json:"biz_id"`
 	Phone string `json:"phone"`
 }
 
@@ -30,12 +29,12 @@ func CreateUser(ctx *gin.Context) {
 	}
 	u, err := table.CreateUser(req.Phone)
 	if err != nil {
-		if errors.Is(err, gorm.ErrDuplicatedKey) || strings.Contains(err.Error(), "Duplicate entry") {
+		if errors.Is(err, table.ErrPhoneAlreadyExists) {
 			ctx.JSON(http.StatusConflict, gin.H{"error": "phone already exists"})
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, userResponse{Id: u.ID, Phone: u.Phone})
+	ctx.JSON(http.StatusOK, userResponse{Id: u.ID, BizID: u.BizID, Phone: u.Phone})
 }
