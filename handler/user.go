@@ -14,9 +14,9 @@ type createUserRequest struct {
 }
 
 type userResponse struct {
-	Id    uint   `json:"id"`
-	BizID string `json:"biz_id"`
-	Phone string `json:"phone"`
+	Id     uint   `json:"id"`
+	UserID string `json:"user_id"`
+	Phone  string `json:"phone"`
 }
 
 // CreateUser 输入手机号创建一个用户。
@@ -36,5 +36,5 @@ func CreateUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, userResponse{Id: u.ID, BizID: u.BizID, Phone: u.Phone})
+	ctx.JSON(http.StatusOK, userResponse{Id: u.ID, UserID: u.UserID, Phone: u.Phone})
 }

@@ -9,6 +9,7 @@ import (
 	"ride/db/cache"
 	"ride/db/table"
 	"ride/handler"
+	"ride/middlerware"
 	"ride/pkg/path"
 
 	"github.com/gin-gonic/gin"
@@ -16,9 +17,12 @@ import (
 
 func main() {
 	r := gin.Default()
-	//r.Use(middlerware.Auth())
+	// 公开接口：创建用户
 	r.POST("/user", handler.CreateUser)
-	r.GET("/point", handler.Point)
+	// 需要 X-User-Id 认证的接口
+	auth := r.Group("")
+	auth.Use(middlerware.UserIDAuth())
+	auth.GET("/point", handler.Point)
 	r.GET("/download", func(c *gin.Context) {
 		currentPath, err := path.GetCurrentPath()
 		if err != nil {

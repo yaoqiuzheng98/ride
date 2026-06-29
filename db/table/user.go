@@ -13,25 +13,25 @@ import (
 // User 用户表。
 type User struct {
 	gorm.Model
-	BizID string `gorm:"size:8;uniqueIndex;not null;comment:业务ID" json:"biz_id"` // 对外暴露的业务ID，大写字母+数字，保证唯一
-	Phone string `gorm:"size:20;uniqueIndex;not null;comment:手机号" json:"phone"`
+	UserID string `gorm:"column:user_id;size:8;uniqueIndex;not null;comment:用户ID" json:"user_id"` // 对外暴露的用户ID，大写字母+数字，保证唯一
+	Phone  string `gorm:"size:20;uniqueIndex;not null;comment:手机号" json:"phone"`
 }
 
 func (User) TableName() string {
 	return "user"
 }
 
-const bizIDCharset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-const bizIDLength = 8
+const userIDCharset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const userIDLength = 8
 
-// generateBizID 生成一个 8 位大写字母+数字的随机串。
-func generateBizID() (string, error) {
-	buf := make([]byte, bizIDLength)
+// generateUserID 生成一个 8 位大写字母+数字的随机串。
+func generateUserID() (string, error) {
+	buf := make([]byte, userIDLength)
 	if _, err := rand.Read(buf); err != nil {
 		return "", err
 	}
 	for i, b := range buf {
-		buf[i] = bizIDCharset[int(b)%len(bizIDCharset)]
+		buf[i] = userIDCharset[int(b)%len(userIDCharset)]
 	}
 	return string(buf), nil
 }
@@ -40,30 +40,30 @@ func generateBizID() (string, error) {
 var ErrPhoneAlreadyExists = errors.New("phone already exists")
 
 // CreateUser 创建一个用户（仅手机号）。手机号已存在时返回 ErrPhoneAlreadyExists。
-// BizID 自动生成大写字母+数字的随机串，冲突时自动重试保证唯一。
+// UserID 自动生成大写字母+数字的随机串，冲突时自动重试保证唯一。
 func CreateUser(phone string) (*User, error) {
 	if phone == "" {
 		return nil, errors.New("phone required")
 	}
 	for i := 0; i < 5; i++ {
-		bizID, err := generateBizID()
+		userID, err := generateUserID()
 		if err != nil {
 			return nil, err
 		}
-		u := &User{BizID: bizID, Phone: phone}
+		u := &User{UserID: userID, Phone: phone}
 		if err := db.GetClient().Create(u).Error; err != nil {
-			// 区分 phone 冲突和 biz_id 冲突：MySQL 错误信息含冲突的键名
+			// 区分 phone 冲突和 user_id 冲突：MySQL 错误信息含冲突的键名
 			if isDuplicateKey(err, "phone") {
 				return nil, ErrPhoneAlreadyExists
 			}
-			if isDuplicateKey(err, "biz_id") {
+			if isDuplicateKey(err, "user_id") {
 				continue // 极小概率冲突，重试
 			}
 			return nil, err
 		}
 		return u, nil
 	}
-	return nil, errors.New("failed to generate unique biz_id")
+	return nil, errors.New("failed to generate unique user_id")
 }
 
 // isDuplicateKey 判断是否为指定键的唯一索引冲突。
@@ -88,10 +88,10 @@ func FindUserByPhone(phone string) (*User, error) {
 	return &u, nil
 }
 
-// FindUserByBizID 按业务ID查询用户。
-func FindUserByBizID(bizID string) (*User, error) {
+// FindUserByUserID 按用户ID查询用户。
+func FindUserByUserID(userID string) (*User, error) {
 	var u User
-	if err := db.GetClient().Where("biz_id = ?", bizID).First(&u).Error; err != nil {
+	if err := db.GetClient().Where("user_id = ?", userID).First(&u).Error; err != nil {
 		return nil, err
 	}
 	return &u, nil
