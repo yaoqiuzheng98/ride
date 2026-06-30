@@ -17,6 +17,9 @@ scp deploy/ride-server.service $TARGET:/tmp/ride-deploy/
 echo ">>> 在服务器上安装..."
 ssh $TARGET 'bash -s' <<'REMOTE'
 set -e
+# 先停服务，避免覆盖正在运行的二进制报 "Text file busy"
+systemctl stop ride-server 2>/dev/null || true
+
 # 安装二进制
 mkdir -p /opt/ride
 cp /tmp/ride-deploy/ride-server /opt/ride/ride-server
@@ -27,7 +30,7 @@ chown -R www-data:www-data /opt/ride 2>/dev/null || true
 cp /tmp/ride-deploy/ride-server.service /etc/systemd/system/ride-server.service
 systemctl daemon-reload
 systemctl enable ride-server
-systemctl restart ride-server
+systemctl start ride-server
 
 sleep 2
 systemctl status ride-server --no-pager -l | head -15
