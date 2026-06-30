@@ -32,7 +32,7 @@ func main() {
 			c.String(http.StatusInternalServerError, err.Error())
 			return
 		}
-		filePath := fmt.Sprintf("%s/ride.apk", currentPath)
+		filePath := fmt.Sprintf("%s/app-release.apk", currentPath)
 		file, err := os.Open(filePath)
 		if err != nil {
 			c.String(http.StatusNotFound, "File not found")
