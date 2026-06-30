@@ -17,7 +17,8 @@ import (
 
 func main() {
 	r := gin.Default()
-	// 公开接口：创建用户
+	// 公开接口：健康检查、创建用户
+	r.GET("/heartbeat", handler.Heartbeat)
 	r.POST("/user", handler.CreateUser)
 	// 需要 APP 版本校验 + X-User-Id 认证的接口
 	auth := r.Group("")
@@ -57,7 +58,7 @@ func main() {
 	cache.NewMemory([]cache.Cache{table.GetPoints()}).Refresh()
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "9999"
+		port = "8000"
 	}
 	err := r.Run(":" + port)
 	if err != nil {
