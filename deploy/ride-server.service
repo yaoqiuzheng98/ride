@@ -1,0 +1,25 @@
+[Unit]
+Description=Ride Server
+After=network.target mysql.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/ride
+ExecStart=/opt/ride/ride-server
+Restart=always
+RestartSec=5
+# 环境变量：根据服务器实际 MySQL 配置修改
+Environment=DB_HOST=127.0.0.1
+Environment=DB_PORT=43306
+Environment=DB_USER=qiu
+Environment=DB_PASS=123456
+Environment=PORT=8000
+# 日志
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=ride-server
+
+[Install]
+WantedBy=multi-user.target
