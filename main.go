@@ -17,15 +17,16 @@ import (
 
 func main() {
 	r := gin.Default()
+	ride := r.Group("/ride")
 	// 公开接口：健康检查、创建用户
-	r.GET("/heartbeat", handler.Heartbeat)
-	r.POST("/user", handler.CreateUser)
+	ride.GET("/heartbeat", handler.Heartbeat)
+	ride.POST("/user", handler.CreateUser)
 	// 需要 APP 版本校验 + X-User-Id 认证的接口
-	auth := r.Group("")
+	auth := ride.Group("")
 	auth.Use(middlerware.AppVersionCheck())
 	auth.Use(middlerware.UserIDAuth())
 	auth.GET("/point", handler.Point)
-	r.GET("/download", func(c *gin.Context) {
+	ride.GET("/download", func(c *gin.Context) {
 		currentPath, err := path.GetCurrentPath()
 		if err != nil {
 			c.String(http.StatusInternalServerError, err.Error())
