@@ -55,7 +55,11 @@ func main() {
 		}
 	})
 	cache.NewMemory([]cache.Cache{table.GetPoints()}).Refresh()
-	err := r.Run(":9999")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "9999"
+	}
+	err := r.Run(":" + port)
 	if err != nil {
 		panic(err)
 	}
