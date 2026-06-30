@@ -2,13 +2,15 @@ package path
 
 import (
 	"fmt"
-	"path"
-	"runtime"
+	"os"
+	"path/filepath"
 )
 
+// GetCurrentPath 返回可执行文件所在目录。
 func GetCurrentPath() (string, error) {
-	if _, file, _, ok := runtime.Caller(1); ok {
-		return path.Dir(file), nil
+	exe, err := os.Executable()
+	if err != nil {
+		return "", fmt.Errorf("获取可执行文件路径失败: %w", err)
 	}
-	return "", fmt.Errorf("获取路径失败")
+	return filepath.Dir(exe), nil
 }

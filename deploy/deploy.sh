@@ -13,6 +13,7 @@ echo ">>> 上传文件到 $TARGET:/tmp/ride-deploy/..."
 ssh $TARGET "mkdir -p /tmp/ride-deploy"
 scp ride-server $TARGET:/tmp/ride-deploy/
 scp deploy/ride-server.service $TARGET:/tmp/ride-deploy/
+scp app-release.apk $TARGET:/tmp/ride-deploy/
 
 echo ">>> 在服务器上安装..."
 ssh $TARGET 'bash -s' <<'REMOTE'
@@ -20,9 +21,10 @@ set -e
 # 先停服务，避免覆盖正在运行的二进制报 "Text file busy"
 systemctl stop ride-server 2>/dev/null || true
 
-# 安装二进制
+# 安装二进制 + apk
 mkdir -p /opt/ride
 cp /tmp/ride-deploy/ride-server /opt/ride/ride-server
+cp /tmp/ride-deploy/app-release.apk /opt/ride/app-release.apk
 chmod +x /opt/ride/ride-server
 chown -R www-data:www-data /opt/ride 2>/dev/null || true
 
