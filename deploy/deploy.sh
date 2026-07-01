@@ -41,7 +41,6 @@ systemctl status ride-server --no-pager -l | head -15
 echo ">>> 部署完成。查看日志: journalctl -u ride-server -f"
 REMOTE
 
-BUILD=$(date +%s)
 echo ""
-echo ">>> 下载链接："
-echo "https://hk-vmiss.dokodemo.top/ride/download?build=$BUILD"
+echo ">>> 下载页面："
+echo "https://hk-vmiss.dokodemo.top/ride/download-page"
