@@ -1,0 +1,14 @@
+# 编译产物
+ride-server
+*.exe
+
+# apk 二进制（超过 GitHub 100MB 限制，部署时单独 scp）
+app-release.apk
+*.apk
+
+# IDE
+.idea/
+.vscode/
+
+# 配置（含密钥）
+config.toml
