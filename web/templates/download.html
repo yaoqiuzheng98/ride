@@ -119,7 +119,12 @@
     <script>
         function downloadApp() {
             var now = Math.floor(Date.now() / 1000);
-            window.location.href = '/ride/download?now=' + now;
+            var a = document.createElement('a');
+            a.href = '/ride/download?now=' + now;
+            a.download = '骑行日记.apk';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
             var btn = document.getElementById('dlBtn');
             btn.textContent = '下载中...';
             setTimeout(function() {
