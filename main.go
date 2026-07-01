@@ -46,9 +46,16 @@ func main() {
 			return
 		}
 
-		c.Header("Content-Disposition", fmt.Sprintf("attachment; filename=%s", fileInfo.Name()))
+		// 用文件修改时间戳作为版本标识，防止客户端缓存旧 apk
+		version := fileInfo.ModTime().Unix()
+		c.Header("Content-Disposition", fmt.Sprintf("attachment; filename=app-release-%d.apk", version))
 		c.Header("Content-Type", "application/octet-stream")
 		c.Header("Content-Length", fmt.Sprintf("%d", fileInfo.Size()))
+		// 禁止缓存，确保每次都重新下载最新 apk
+		c.Header("Cache-Control", "no-cache, no-store, must-revalidate")
+		c.Header("Pragma", "no-cache")
+		c.Header("Expires", "0")
+		c.Header("ETag", fmt.Sprintf("%d-%d", version, fileInfo.Size()))
 
 		_, err = io.Copy(c.Writer, file)
 		if err != nil {
