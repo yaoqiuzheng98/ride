@@ -26,6 +26,7 @@ systemctl stop ride-server 2>/dev/null || true
 mkdir -p /opt/ride
 cp /tmp/ride-deploy/ride-server /opt/ride/ride-server
 cp /tmp/ride-deploy/骑行日记v*.apk /opt/ride/
+rm -rf /opt/ride/web
 cp -r /tmp/ride-deploy/web /opt/ride/web
 chmod +x /opt/ride/ride-server
 chown -R www-data:www-data /opt/ride 2>/dev/null || true
