@@ -111,19 +111,22 @@
             </ul>
         </div>
 
-        <a class="download-btn" href="/ride/download?build={{.Build}}" id="dlBtn">
+        <a class="download-btn" href="#" id="dlBtn" onclick="return downloadApp()">
             下载安装
         </a>
         <div class="file-info">点击下载 APK 安装包</div>
     </div>
     <script>
-        document.getElementById('dlBtn').addEventListener('click', function() {
-            this.textContent = '下载中...';
-            var btn = this;
+        function downloadApp() {
+            var now = Math.floor(Date.now() / 1000);
+            window.location.href = '/ride/download?now=' + now;
+            var btn = document.getElementById('dlBtn');
+            btn.textContent = '下载中...';
             setTimeout(function() {
                 btn.textContent = '下载安装';
             }, 3000);
-        });
+            return false;
+        }
     </script>
 </body>
 </html>

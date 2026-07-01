@@ -13,7 +13,7 @@ echo ">>> 上传文件到 $TARGET:/tmp/ride-deploy/..."
 ssh $TARGET "mkdir -p /tmp/ride-deploy"
 scp ride-server $TARGET:/tmp/ride-deploy/
 scp deploy/ride-server.service $TARGET:/tmp/ride-deploy/
-scp 骑行日记.apk $TARGET:/tmp/ride-deploy/
+scp 骑行日记v*.apk $TARGET:/tmp/ride-deploy/
 scp -r web $TARGET:/tmp/ride-deploy/
 
 echo ">>> 在服务器上安装..."
@@ -25,7 +25,7 @@ systemctl stop ride-server 2>/dev/null || true
 # 安装二进制 + apk + web 资源
 mkdir -p /opt/ride
 cp /tmp/ride-deploy/ride-server /opt/ride/ride-server
-cp /tmp/ride-deploy/骑行日记.apk /opt/ride/骑行日记.apk
+cp /tmp/ride-deploy/骑行日记v*.apk /opt/ride/
 cp -r /tmp/ride-deploy/web /opt/ride/web
 chmod +x /opt/ride/ride-server
 chown -R www-data:www-data /opt/ride 2>/dev/null || true
