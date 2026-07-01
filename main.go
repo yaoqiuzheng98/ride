@@ -18,8 +18,11 @@ import (
 func main() {
 	r := gin.Default()
 	ride := r.Group("/ride")
-	// 公开接口：健康检查、创建用户
+	// 静态文件（图标等）
+	ride.Static("/static", "./web/static")
+	// 公开接口：健康检查、下载页、创建用户
 	ride.GET("/heartbeat", handler.Heartbeat)
+	ride.GET("/download-page", handler.DownloadPage)
 	ride.POST("/user", handler.CreateUser)
 	// 需要 APP 版本校验 + X-User-Id 认证的接口
 	auth := ride.Group("")

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>骑行日记 - 下载</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+            max-width: 420px;
+            width: 100%;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 26px;
+            margin: 0 auto 24px;
+            display: block;
+            object-fit: cover;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+        }
+        .icon-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 26px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+        }
+        h1 { font-size: 26px; color: #1a1a1a; margin-bottom: 8px; }
+        .version { font-size: 14px; color: #999; margin-bottom: 24px; }
+        .description {
+            text-align: left;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .description h2 { font-size: 16px; color: #333; margin-bottom: 12px; }
+        .description ul { list-style: none; }
+        .description li {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.8;
+            padding-left: 20px;
+            position: relative;
+        }
+        .description li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: opacity 0.2s, transform 0.1s;
+            border: none;
+            cursor: pointer;
+        }
+        .download-btn:active { transform: scale(0.98); }
+        .download-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .file-info { font-size: 13px; color: #aaa; margin-top: 16px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        {{if .IconExists}}
+            <img class="icon" src="/ride/static/icon.png" alt="骑行日记">
+        {{else}}
+            <div class="icon-placeholder">🚴</div>
+        {{end}}
+
+        <h1>骑行日记</h1>
+        <div class="version">版本 {{.Version}} · {{.SizeText}}</div>
+
+        <div class="description">
+            <h2>功能介绍</h2>
+            <ul>
+                <li>记录骑行轨迹，自动统计里程</li>
+                <li>查看历史骑行路线和数据</li>
+                <li>地图实时显示当前位置</li>
+                <li>骑行数据分享与导出</li>
+            </ul>
+        </div>
+
+        <a class="download-btn" href="/ride/download?build={{.Build}}" id="dlBtn">
+            下载安装
+        </a>
+        <div class="file-info">点击下载 APK 安装包</div>
+    </div>
+    <script>
+        document.getElementById('dlBtn').addEventListener('click', function() {
+            this.textContent = '下载中...';
+            var btn = this;
+            setTimeout(function() {
+                btn.textContent = '下载安装';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
