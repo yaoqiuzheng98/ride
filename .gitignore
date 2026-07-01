@@ -3,7 +3,7 @@ ride-server
 *.exe
 
 # apk 二进制（超过 GitHub 100MB 限制，部署时单独 scp）
-app-release.apk
+骑行日记.apk
 *.apk
 
 # IDE
